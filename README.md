@@ -65,6 +65,11 @@ EventViewer is a cloud based application which processes input log files and ena
 ##### Proposed Technical Solution #1
 I am assuming that eventing log files (.json extension) are being placed on a Linux server. As shown in below design diagram:
 
+
+![alt text](https://github.com/goelshubham/eventviewer-service/blob/master/readme/solution1.png)
+
+
+
 We can create a standalone Java application (EventReader) and schedule it to run on a linux server using Quartz and Cron job scheduling. EventReader should be a multi-threader application which reads the input JSON file in a very short time and it makes REST api call to Elastic Search and inserts individual Events into the elastic search. Below is a snapshot from elastic search of three events I inserted using EventReader application.
 
 ```
