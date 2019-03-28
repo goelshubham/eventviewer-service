@@ -160,7 +160,7 @@ Note: In production level application, I would create a multi-threaded applicati
 Note: For enterprise production level application, I would recommand using Elasticsearch Cloud which provisions the complete ELK stack either on AWS Cloud or Google Cloud or else we can install native Elasticsearch on on-prem windows or linux severs. 
 For the purpose of this assignment, I chose to install on my local machine. 
 
-The default port of elasticsearch installation is 9200. Once up and running, hit the following URL either in postman or a browser.
+The default port of elasticsearch installation is 9200. Start the elasticsearch node on your machine. Once up and running, hit the following URL either in postman or a browser.
 
 ```
 http://localhost:9200/

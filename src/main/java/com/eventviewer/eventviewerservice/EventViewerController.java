@@ -34,7 +34,6 @@ public class EventViewerController {
 		System.out.println("called");
 		List<Event> listOfEvents = new ArrayList<Event>();
 		eventRepository.findAll().forEach(listOfEvents::add);
-		Iterable<Event> it = eventRepository.findAll();
 		System.out.println(listOfEvents.toString());
 		return listOfEvents;
 	}
