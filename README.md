@@ -141,10 +141,151 @@ For the simplisity of this project, I have exposed only three REST endpoints whi
 
 ## Installation and execution steps
 
-Github link to eventreader-service - https://github.com/goelshubham/eventreader-service.git
-Please checkout the above project and open in your Java IDE. EventReader java class needs a change of input JSON file location. In order to execute this API on a local machine, please keep the input JSON file at a location and give that path. 
+1. Github link to eventreader-service - https://github.com/goelshubham/eventreader-service.git
+2. Please checkout the above project and open in your Java IDE. EventReader java class needs a change of input JSON file location. In order to execute this API on a local machine, please keep the input JSON file at a location and give that path. 
+When we schedule this application on a Linux server than we can give the path where we are expecting the eventing JSON files coming in. 
 
 ```
 rootObject = (JSONObject) parser.parse(new FileReader("/Users/sgoel201/Desktop/input.json"));
 ```
+
+3. Install Elasticsearch on your local machine. Elasticsearch is an open source software and can be downloaded from this link - https://www.elastic.co/downloads/elasticsearch
+
+Note: For enterprise production level application, I would recommand using Elasticsearch Cloud which provisions the complete ELK stack either on AWS Cloud or Google Cloud or else we can install native Elasticsearch on on-prem windows or linux severs. 
+For the purpose of this assignment, I chose to install on my local machine. 
+
+The default port of elasticsearch installation is 9200. Once up and running, hit the following URL either in postman or a browser.
+
+```
+http://localhost:9200/
+```
+
+An output like below should show up.
+```
+{
+name: "Sunset Bain",
+cluster_name: "elasticsearch",
+cluster_uuid: "QqXWe6DER0Spm1bgXh_isg",
+version: {
+number: "2.4.4",
+build_hash: "fcbb46dfd45562a9cf00c604b30849a6dec6b017",
+build_timestamp: "2017-01-03T11:33:16Z",
+build_snapshot: false,
+lucene_version: "5.5.2"
+},
+tagline: "You Know, for Search"
+}
+```
+4. Loading Data into elasticsearch: In realtime application, I would schedule the Eventreader service and schedule it using crontab. For the purpose of this project, we can manually run it as a Java Application on our local machine from IDE. 
+
+5. Fetching Eventing data: Checkout the eventviewer-service and run it on your local machine. Eventviewer is a spring boot application, which connects with the elastic search installed on a server [local machine in this case]. It exposes REST apis to fetch data.
+
+In Production level application, we can create more APIs as per the use case.
+
+
+####nGet All Events API
+
+```
+http://localhost:8090/eventviewer/events/
+```
+
+Response
+```
+[
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084ad45",
+        "createdAt": "2019-03-16T11:17:10Z",
+        "type": "DEBUG",
+        "source": "MOBILE",
+        "details": "User login success"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084ad44",
+        "createdAt": "2019-01-16T11:17:10Z",
+        "type": "DEBUG",
+        "source": "UI",
+        "details": "User login success"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b0846766",
+        "createdAt": "2019-03-17T13:23:30Z",
+        "type": "INFO",
+        "source": "Data processor",
+        "details": "File Processed successfully"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b0846765",
+        "createdAt": "2019-01-17T13:23:30Z",
+        "type": "INFO",
+        "source": "Data processor",
+        "details": "File Processed successfully"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084112",
+        "createdAt": "2018-12-18T12:34:20Z",
+        "type": "ERROR",
+        "source": "AuthService",
+        "details": "NullPointerException"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084111",
+        "createdAt": "2019-01-18T12:34:20Z",
+        "type": "ERROR",
+        "source": "AuthService",
+        "details": "NullPointerException"
+    }
+]
+```
+
+#### Get Events By Type API
+```
+http://localhost:8090/eventviewer/events/type/ERROR
+```
+
+Response
+```
+[
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084112",
+        "createdAt": "2018-12-18T12:34:20Z",
+        "type": "ERROR",
+        "source": "AuthService",
+        "details": "NullPointerException"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084111",
+        "createdAt": "2019-01-18T12:34:20Z",
+        "type": "ERROR",
+        "source": "AuthService",
+        "details": "NullPointerException"
+    }
+]
+```
+
+#### Get Event by Days API
+```
+http://localhost:8090/eventviewer/events/days/30
+```
+
+Response
+```
+[
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b084ad45",
+        "createdAt": "2019-03-16T11:17:10Z",
+        "type": "DEBUG",
+        "source": "MOBILE",
+        "details": "User login success"
+    },
+    {
+        "id": "3273bf58-bf03-5cc2-b13b-9101b0846766",
+        "createdAt": "2019-03-17T13:23:30Z",
+        "type": "INFO",
+        "source": "Data processor",
+        "details": "File Processed successfully"
+    }
+]
+```
+
+
 
