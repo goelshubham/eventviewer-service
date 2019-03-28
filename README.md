@@ -138,3 +138,13 @@ For the simplisity of this project, I have exposed only three REST endpoints whi
 1. GET /eventviewer/events/ -> Returns a list of ALL events in JSON format
 2. GET /eventviewer/events/type/{type} -> Returns a list of events in JSON format filtered by 'type' field in the event. For example, if {type} is passed as ERROR then all events which has type field as ERROR will be returned to UI
 3. /eventviewer/events/days/{days} -> Returns a list of events in JSON format for a given timeframe. For example, if {days} is given as 30 then all the events in last 30 days will be returned
+
+## Installation and execution steps
+
+Github link to eventreader-service - https://github.com/goelshubham/eventreader-service.git
+Please checkout the above project and open in your Java IDE. EventReader java class needs a change of input JSON file location. In order to execute this API on a local machine, please keep the input JSON file at a location and give that path. 
+
+```
+rootObject = (JSONObject) parser.parse(new FileReader("/Users/sgoel201/Desktop/input.json"));
+```
+
