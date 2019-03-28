@@ -1,23 +1,16 @@
 package com.eventviewer.eventviewerservice;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.stereotype.Component;
 
 @Configuration
@@ -33,14 +26,30 @@ public class ElasticSearchConfig {
 	@Value("${elasticsearch.clustername}")
     private String EsClusterName;
 
-    @Value("${elasticsearch.port}")
-
     @Bean
     public Client client() throws Exception {
 
         Settings esSettings = Settings.settingsBuilder()
                 .put("cluster.name", EsClusterName)
                 .build();
+        
+/*        
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials("elastic", "yUitwy9ypBOkgiPIfyH1HmKx"));
+
+        final RestClientBuilder builder = RestClient.builder(new HttpHost(host, port))
+                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(
+                            HttpAsyncClientBuilder httpClientBuilder) {
+                        httpClientBuilder.disableAuthCaching();
+                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                    }
+                });
+
+        final RestClient restClient = builder.build();
+        return restClient;*/
 
         return TransportClient.builder()
                 .settings(esSettings)

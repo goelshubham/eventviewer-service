@@ -19,6 +19,7 @@ import com.eventviewer.entities.Event;
 @RequestMapping("/eventviewer")
 public class EventViewerController {
 
+	
 	@Autowired
 	Client client;
 	
