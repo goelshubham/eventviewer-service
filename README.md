@@ -21,6 +21,7 @@ Java, Spring, UI framework (Angular - preferred, Vue.js, React)
 Please state any assumptions that you are making.
 
 SAMPLE JSON FILE
+```
 {
   "events": [
     {
@@ -46,7 +47,7 @@ SAMPLE JSON FILE
     }
   ]
 }
-
+```
 
 # eventviewer
 
