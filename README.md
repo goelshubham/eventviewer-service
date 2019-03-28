@@ -183,7 +183,7 @@ tagline: "You Know, for Search"
 In Production level application, we can create more APIs as per the use case.
 
 
-####nGet All Events API
+#### Get All Events API: HTTP GET Method
 
 ```
 http://localhost:8090/eventviewer/events/
@@ -237,7 +237,7 @@ Response
 ]
 ```
 
-#### Get Events By Type API
+#### Get Events By Type API: HTTP GET Method
 ```
 http://localhost:8090/eventviewer/events/type/ERROR
 ```
@@ -262,7 +262,7 @@ Response
 ]
 ```
 
-#### Get Event by Days API
+#### Get Event by Days API: HTTP GET Method
 ```
 http://localhost:8090/eventviewer/events/days/30
 ```
