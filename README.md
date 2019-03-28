@@ -59,7 +59,7 @@ EventViewer is a cloud based application which processes input log files and ena
 * Elastic Search 2.4.4
 * GitHub
 * Eclipse IDE
-* Cloud Foundry
+
 
 #### System Design
 ##### Proposed Technical Solution #1
@@ -153,6 +153,7 @@ When we schedule this application on a Linux server than we can give the path wh
 ```
 rootObject = (JSONObject) parser.parse(new FileReader("/Users/sgoel201/Desktop/input.json"));
 ```
+Note: In production level application, I would create a multi-threaded application will be scheduled to run every five minutes and read the input log file. Multiple threads reading the same file at time will make this process fast. Once processed, the file should be deleted and the next file will be processed in order.
 
 3. Install Elasticsearch on your local machine. Elasticsearch is an open source software and can be downloaded from this link - https://www.elastic.co/downloads/elasticsearch
 
@@ -292,5 +293,16 @@ Response
 ]
 ```
 
+We can create a Logging UI such as below where user will have the features to search for events by clicking on the links and entering desired values. These links should invoke the REST api endpoints which will return the response in JSON format. UI should be able to show the JSON formatted response as it is or map into a different format as required.
 
+![alt text](https://github.com/goelshubham/eventviewer-service/blob/master/readme/UI.png)
+
+
+## Technical Solution #2
+
+In the solution #1, I am using a java application to read the input JSON file and feed the data into elasticsearch engine. A better optimised solution would be to use Apache Kafka and logstash together. Input data can come from multiple sources and we can get huge number of files which can become inefficient for the EventReader java application to process. So I would use Apache Kafka which works as a message queuing system for streaming data. Input JSON files will stay in Kafka brokers as long we configure it to be deleted or the files are consumed by consumer application. In front of Kafka, I will setup Logstash. Logstash is a plugin-based data collection and processing engine. It comes with a wide range of plugins that makes it possible to easily configre it to collect, process and forward data in many different architectures. It has the ability to read data files from multiple sources and filter out the details and output the filtered details to Elasticsearch cluster of nodes. Logstash is extremely fast and scales horizontally. 
+
+This infrascructure would look like below:
+
+![alt text](https://github.com/goelshubham/eventviewer-service/blob/master/readme/solution2.png)
 
